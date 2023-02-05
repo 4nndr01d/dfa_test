@@ -8,6 +8,7 @@ class Picture(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
 
     class Meta:
+        ordering = ['-id']
         verbose_name = 'Картинка'
         verbose_name_plural = 'Картинки'
 
