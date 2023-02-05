@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-(67t68ob7j#+p!()&cnlqphx1s56$f9e-_ul_ax)!ju#fw2(zn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split()
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,8 +78,12 @@ WSGI_APPLICATION = 'gallery_crud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST') or 'db',
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 
@@ -140,3 +143,14 @@ SIMPLE_JWT = {
 
 MEDIA_ROOT = os.environ.get("MEDIA_ROOT", default=f"{BASE_DIR}/media/")
 MEDIA_URL = os.environ.get("MEDIA_URL", default="/media/")
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    "DEFAULT_MODEL_RENDERING": "example"
+}

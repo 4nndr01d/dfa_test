@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -16,6 +17,7 @@ class PicturesViewSet(ModelViewSet):
     pagination_class = PageNumberPagination
     serializer_class = PictureSerializer
     permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser,)
 
     def get_permissions(self):
         if self.action == "delete_all":
